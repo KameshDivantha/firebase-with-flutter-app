@@ -1,12 +1,17 @@
-import 'dart:ui';
+// import 'dart:html';
+// import 'dart:ui';
 
+import 'package:fire/Pages/signup_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 
+import 'forgot_pw_page.dart';
+
 class loginpage extends StatefulWidget {
-  const loginpage({super.key});
+  final VoidCallback showSignupPage;
+  const loginpage({Key? key, required this.showSignupPage}) : super(key: key);
 
   @override
   State<loginpage> createState() => _loginpageState();
@@ -71,7 +76,7 @@ class _loginpageState extends State<loginpage> {
                               borderSide: BorderSide(color: Colors.white),
                               borderRadius: BorderRadius.circular(12)),
                           focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.deepPurple),
+                              borderSide: BorderSide(color: Colors.deepOrange),
                               borderRadius: BorderRadius.circular(12)),
                           hintText: "Email",
                           fillColor: Colors.grey[200],
@@ -83,20 +88,49 @@ class _loginpageState extends State<loginpage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: TextField(
+                      obscureText: true,
                       controller: _passwordcontroller,
                       decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.white),
                               borderRadius: BorderRadius.circular(12)),
                           focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.deepPurple),
+                              borderSide: BorderSide(color: Colors.deepOrange),
                               borderRadius: BorderRadius.circular(12)),
                           hintText: "Password",
                           fillColor: Colors.grey[200],
                           filled: true)),
                 ),
+                SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return forgotpasswordPage();
+                              },
+                            ),
+                          );
+                        },
+                        child: Text("Forgot Password?",
+                            style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold)),
+                      ),
+                    ],
+                  ),
+                ),
+
                 //submit button
-                SizedBox(height: 10),
+                SizedBox(height: 20),
 
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -105,7 +139,7 @@ class _loginpageState extends State<loginpage> {
                     child: Container(
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
-                            color: Colors.deepPurple,
+                            color: Colors.deepOrange,
                             borderRadius: BorderRadius.circular(12)),
                         child: Center(
                             child: Text(
@@ -124,10 +158,13 @@ class _loginpageState extends State<loginpage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text("Not a member? "),
-                    Text(
-                      "Register now",
-                      style: TextStyle(
-                          color: Colors.blue, fontWeight: FontWeight.bold),
+                    GestureDetector(
+                      onTap: widget.showSignupPage,
+                      child: Text(
+                        "Register now",
+                        style: TextStyle(
+                            color: Colors.blue, fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ],
                 )
